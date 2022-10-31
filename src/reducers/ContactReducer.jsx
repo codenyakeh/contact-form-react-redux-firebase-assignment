@@ -1,5 +1,3 @@
-import { v4 as uuid } from "uuid";
-
 let initialState = {
   users: [
     // { ContactName: "Emrica", Location: "East", Number: "21", id: uuid() },

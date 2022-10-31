@@ -1,4 +1,10 @@
-import { doc, setDoc, collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  collection,
+  addDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { db } from "../firebase/config";
@@ -11,7 +17,13 @@ function AddContactForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let newUser = { name, location, number, id: uuid(), timestamp: serverTimestamp() };
+    let newUser = {
+      name,
+      location,
+      number,
+      id: uuid(),
+      timestamp: serverTimestamp(),
+    };
 
     try {
       const docRef = await setDoc(doc(db, "Contacts", newUser.id), newUser);
@@ -27,7 +39,7 @@ function AddContactForm() {
     setNumber("");
   };
   return (
-    <div>
+    <div style={{ width: "100%"}}>
       <Form>
         <Form.Group className="mb-3" controlId="formBasicName">
           <Form.Label>Name</Form.Label>
@@ -66,7 +78,7 @@ function AddContactForm() {
 
         <Button
           onClick={handleSubmit}
-          style={{ backgroundColor: "pink", border: "none" }}
+          style={{ backgroundColor: "pink", border: "none", marginBottom: "50px"}}
           type="submit"
         >
           Submit

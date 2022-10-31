@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Card, Col, Button, Modal } from "react-bootstrap";
 import EditContactForm from "./EditContactForm";
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { deleteUser } from "../action/actions";
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
@@ -19,11 +19,9 @@ function Contact(props) {
     } catch (e) {
       console.log(e);
     }
-    props.delete(props.userBio.id);
-    dispatch(deleteUser(props.userBio.id));
   };
   return (
-    <>
+    <div>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Contact details</Modal.Title>
@@ -67,8 +65,12 @@ function Contact(props) {
           </Card.Body>
         </Card>
       </Col>
-    </>
+    </div>
   );
 }
 
-export default Contact;
+const mapDispatchToPro = {
+  deleteUser,
+};
+
+export default connect(null, mapDispatchToPro)(Contact);

@@ -1,12 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col, Container } from "react-bootstrap";
+import styled from "styled-components";
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
 import { db } from "./firebase/config";
 import { addUser } from "./action/actions";
 import { useDispatch } from "react-redux";
-import Contacts from "./Components/Contacts";
-import AddContactForm from "./Components/AddContactForm";
+//import Contacts from "./Components/Contacts";
+//import AddContactForm from "./Components/AddContactForm";
+import { auth } from "./firebase/config";
+import { dispatchUser } from "./action/authAction";
+import Routers from "./Routers";
+
+const Container = styled.div`
+  align-items: center;
+  justify-content: center;
+`;
 
 function App() {
   const dispatch = useDispatch();
@@ -26,58 +34,21 @@ function App() {
     readData();
   }, []);
 
-  // const [users, setUsers] = useState([
-  //   {
-  //     ContactName: "Emrica",
-  //     Location: "East",
-  //     Number: "21",
-  //     id: "ggggggggg123",
-  //   },
-  //   { ContactName: "Emma", Location: "West", Number: "22", id: "ggggggggg124" },
-  //   { ContactName: "Eno", Location: "north", Number: "23", id: "ggggggggg125" },
-  // ]);
-  // const addNewUser = (user) => {
-  //   user.id = Math.random().toString();
-  //   setUsers([...users, user]);
-  //   console.log(user);
-  // };
-
-  // const deleteUser = (id) => {
-  //   // setUsers(users.filter((user) => user.id !== id));
-  //   setUsers(
-  //     users.filter((user) => {
-  //       if (user.id !== id) {
-  //         return user;
-  //       }
-  //     })
-  //   );
-  // };
-  // const EditUser = (id, newData) => {
-  //   setUsers(
-  //     users.map((user) => {
-  //       if (user.id === id) {
-  //         return newData;
-  //       }
-  //       return user;
-  //     })
-  //   );
-  // };
+  // dispatch action to the authReducer
+  useEffect(() => {
+    auth.onAuthStateChanged((user) => {
+      if (user) {
+        dispatch(dispatchUser(user));
+      } else {
+        dispatch(dispatchUser(null));
+      }
+      console.log(user);
+    });
+  }, []);
 
   return (
     <Container style={{ marginTop: "30px" }}>
-      <Row>
-        <Col md={6}>
-          <AddContactForm //newUser={addNewUser}
-          />
-        </Col>
-        <Col md={6}>
-          <Contacts
-          //userData={users}
-          //editUser={EditUser}
-          //delete={deleteUser}
-          />
-        </Col>
-      </Row>
+      <Routers />
     </Container>
   );
 }

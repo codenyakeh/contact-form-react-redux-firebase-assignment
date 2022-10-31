@@ -6,9 +6,9 @@ import {useSelector} from "react-redux";
 
 
 function Contacts(props) {
-	const {users} = useSelector((state) => {
-		return state;
-	})
+	const users  = useSelector((state) => {
+		return state.ContactReducer.users;
+	});
 	return (
 		<Container>
 			<Row>
